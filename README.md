@@ -1,4 +1,4 @@
-Sistema de Control de Tiempo de Carga
+Sistema de Control de Tiempos de Carga
 
 Este proyecto consiste en desarrollar un sistema para registrar y controlar los tiempos de carga de camiones en un proceso de distribución de productos perecederos.
 
