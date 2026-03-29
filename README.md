@@ -11,5 +11,5 @@ El propósito principal del proyecto es transformar datos operativos en informac
 Este desarrollo se realiza como parte de la asignatura de Bases de Datos I de la Universidad Nacional Autónoma de Honduras (UNAH), integrando conceptos de modelado de datos, normalización y diseño de sistemas de información aplicados a un caso real.
 
 Grupo 1: 
-Carlos Alvarado
+- Carlos Alvarado
 - Johnny Euceda
