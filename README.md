@@ -13,3 +13,4 @@ Este proyecto se desarrolla como parte de la clase de Bases de Datos I de la Uni
 Grupo 1: 
 - Carlos Alvarado
 - Johnny Euceda
+- Angie Euceda
