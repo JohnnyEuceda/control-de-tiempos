@@ -342,3 +342,4 @@ CREATE TABLE turnos_operarios (
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
+
