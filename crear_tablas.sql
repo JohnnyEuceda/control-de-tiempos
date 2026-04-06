@@ -1,345 +1,350 @@
-
--- =========================================
---  TABLAS DE CATÁLOGOS BASE
--- =========================================
-
--- 1. Se crea la tabla tipos_licencia
-CREATE TABLE tipos_licencia (
-    id_tipo_licencia SERIAL PRIMARY KEY,
-    nombre VARCHAR(30) NOT NULL UNIQUE
-);
-
--- 2. Se crea la tabla tipos_camiones
-CREATE TABLE tipos_camiones (
-    id_tipo_camion SERIAL PRIMARY KEY,
-    nombre VARCHAR(30) NOT NULL UNIQUE
-);
-
--- 3. Se crea la tabla tipos_combustibles
-CREATE TABLE tipos_combustibles (
-    id_tipo_combustible SERIAL PRIMARY KEY,
-    nombre VARCHAR(30) NOT NULL UNIQUE
-);
-
--- 4. Se crea la tabla capacidades_camiones
-CREATE TABLE capacidades_camiones (
-    id_capacidad_camion SERIAL PRIMARY KEY,
-    nombre VARCHAR(30) NOT NULL UNIQUE
-);
-
--- 5. Se crea la tabla marcas_vehiculos
-CREATE TABLE marcas_vehiculos (
-    id_marca_vehiculo SERIAL PRIMARY KEY,
-    nombre VARCHAR(30) NOT NULL UNIQUE
-);
-
--- 6. Se crea la tabla tipos_distribucion
-CREATE TABLE tipos_distribucion (
-    id_tipo_distribucion SERIAL PRIMARY KEY,
-    nombre VARCHAR(30) NOT NULL UNIQUE
-);
-
--- 7. Se crea la tabla tipos_asignacion
-CREATE TABLE tipos_asignacion (
-    id_tipo_asignacion SERIAL PRIMARY KEY,
-    nombre VARCHAR(30) NOT NULL UNIQUE
-);
-
--- 8. Se crea la tabla zonas
-CREATE TABLE zonas (
-    id_zona SERIAL PRIMARY KEY,
-    nombre VARCHAR(30) NOT NULL UNIQUE
-);
-
--- 9. Se crea la tabla tipos_sitios
-CREATE TABLE tipos_sitios (
-    id_tipo_sitio SERIAL PRIMARY KEY,
-    nombre VARCHAR(30) NOT NULL UNIQUE
-);
-
--- 10. Se crea la tabla ciudades
-CREATE TABLE ciudades (
-    id_ciudad SERIAL PRIMARY KEY,
-    nombre VARCHAR(30) NOT NULL UNIQUE
+create table pruebas (
+  id int primary key,
+  nombre varchar(30) not null
 );
 
 -- =========================================
---  TABLAS CON DEPENDENCIAS
+--  tablas de catálogos base
 -- =========================================
 
--- 11. Se crea la tabla modelos_vehiculos
-CREATE TABLE modelos_vehiculos (
-    id_modelo_vehiculo SERIAL PRIMARY KEY,
-    nombre VARCHAR(30) NOT NULL,
-    id_marca_vehiculo INT NOT NULL,
-    CONSTRAINT fk_modelo_marca FOREIGN KEY (id_marca_vehiculo)
-        REFERENCES marcas_vehiculos(id_marca_vehiculo)
-        ON DELETE CASCADE 
-        ON UPDATE CASCADE
+-- 1. se crea la tabla tipos_licencia
+create table tipos_licencia (
+    id_tipo_licencia serial primary key,
+    nombre varchar(30) not null unique
 );
 
--- 12. Se crea la tabla empresas
-CREATE TABLE empresas (
-    id_empresa SERIAL PRIMARY KEY,
-    nombre VARCHAR(30) NOT NULL UNIQUE,
-    telefono VARCHAR(9) NOT NULL,
-    observaciones TEXT,
-    estado BOOLEAN NOT NULL DEFAULT TRUE,
-    CONSTRAINT chk_tel_empresa CHECK (
-        telefono ~ '^[0-9]{8}$' OR telefono ~ '^[0-9]{4}-[0-9]{4}$'
+-- 2. se crea la tabla tipos_camiones
+create table tipos_camiones (
+    id_tipo_camion serial primary key,
+    nombre varchar(30) not null unique
+);
+
+-- 3. se crea la tabla tipos_combustibles
+create table tipos_combustibles (
+    id_tipo_combustible serial primary key,
+    nombre varchar(30) not null unique
+);
+
+-- 4. se crea la tabla capacidades_camiones
+create table capacidades_camiones (
+    id_capacidad_camion serial primary key,
+    nombre varchar(30) not null unique
+);
+
+-- 5. se crea la tabla marcas_vehiculos
+create table marcas_vehiculos (
+    id_marca_vehiculo serial primary key,
+    nombre varchar(30) not null unique
+);
+
+-- 6. se crea la tabla tipos_distribucion
+create table tipos_distribucion (
+    id_tipo_distribucion serial primary key,
+    nombre varchar(30) not null unique
+);
+
+-- 7. se crea la tabla tipos_asignacion
+create table tipos_asignacion (
+    id_tipo_asignacion serial primary key,
+    nombre varchar(30) not null unique
+);
+
+-- 8. se crea la tabla zonas
+create table zonas (
+    id_zona serial primary key,
+    nombre varchar(30) not null unique
+);
+
+-- 9. se crea la tabla tipos_sitios
+create table tipos_sitios (
+    id_tipo_sitio serial primary key,
+    nombre varchar(30) not null unique
+);
+
+-- 10. se crea la tabla ciudades
+create table ciudades (
+    id_ciudad serial primary key,
+    nombre varchar(30) not null unique
+);
+
+-- =========================================
+--  tablas con dependencias
+-- =========================================
+
+-- 11. se crea la tabla modelos_vehiculos
+create table modelos_vehiculos (
+    id_modelo_vehiculo serial primary key,
+    nombre varchar(30) not null,
+    id_marca_vehiculo int not null,
+    constraint fk_modelo_marca foreign key (id_marca_vehiculo)
+        references marcas_vehiculos(id_marca_vehiculo)
+        on delete cascade 
+        on update cascade
+);
+
+-- 12. se crea la tabla empresas
+create table empresas (
+    id_empresa serial primary key,
+    nombre varchar(30) not null unique,
+    telefono varchar(9) not null,
+    observaciones text,
+    estado boolean not null default true,
+    constraint chk_tel_empresa check (
+        telefono ~ '^[0-9]{8}$' or telefono ~ '^[0-9]{4}-[0-9]{4}$'
     )
 );
 
--- 13. Se crea la tabla personas
-CREATE TABLE personas (
-    id_persona SERIAL PRIMARY KEY,
-    dni VARCHAR(15) NOT NULL UNIQUE,
-    nombre1 VARCHAR(30) NOT NULL,
-    nombre2 VARCHAR(30),
-    apellido1 VARCHAR(30) NOT NULL,
-    apellido2 VARCHAR(30),
-    telefono VARCHAR(9) NOT NULL,
-    estado BOOLEAN NOT NULL DEFAULT TRUE,
-    CONSTRAINT chk_dni CHECK (
-        dni ~ '^[0-9]{13}$' OR dni ~ '^[0-9]{4}-[0-9]{4}-[0-9]{5}$'
+-- 13. se crea la tabla personas
+create table personas (
+    id_persona serial primary key,
+    dni varchar(15) not null unique,
+    nombre1 varchar(30) not null,
+    nombre2 varchar(30),
+    apellido1 varchar(30) not null,
+    apellido2 varchar(30),
+    telefono varchar(9) not null,
+    estado boolean not null default true,
+    constraint chk_dni check (
+        dni ~ '^[0-9]{13}$' or dni ~ '^[0-9]{4}-[0-9]{4}-[0-9]{5}$'
     ),
-    CONSTRAINT chk_tel CHECK (
-        telefono ~ '^[0-9]{8}$' OR telefono ~ '^[0-9]{4}-[0-9]{4}$'
+    constraint chk_tel check (
+        telefono ~ '^[0-9]{8}$' or telefono ~ '^[0-9]{4}-[0-9]{4}$'
     )
 );
 
--- 14. Se crea la tabla sitios
-CREATE TABLE sitios (
-    id_sitio SERIAL PRIMARY KEY,
-    nombre VARCHAR(30) NOT NULL UNIQUE,
-    id_tipo_sitio INT NOT NULL,
-    id_ciudad INT NOT NULL,
-    latitud DECIMAL(10,2),
-    longitud DECIMAL(10,2),
-    estado BOOLEAN NOT NULL DEFAULT TRUE,
-    CONSTRAINT fk_sitio_tipo FOREIGN KEY (id_tipo_sitio)
-        REFERENCES tipos_sitios(id_tipo_sitio)
-        ON DELETE RESTRICT
-        ON UPDATE RESTRICT,
-    CONSTRAINT fk_sitio_ciudad FOREIGN KEY (id_ciudad)
-        REFERENCES ciudades(id_ciudad)
-        ON DELETE RESTRICT
-        ON UPDATE RESTRICT
+-- 14. se crea la tabla sitios
+create table sitios (
+    id_sitio serial primary key,
+    nombre varchar(30) not null unique,
+    id_tipo_sitio int not null,
+    id_ciudad int not null,
+    latitud decimal(10,2),
+    longitud decimal(10,2),
+    estado boolean not null default true,
+    constraint fk_sitio_tipo foreign key (id_tipo_sitio)
+        references tipos_sitios(id_tipo_sitio)
+        on delete restrict
+        on update restrict,
+    constraint fk_sitio_ciudad foreign key (id_ciudad)
+        references ciudades(id_ciudad)
+        on delete restrict
+        on update restrict
 );
 
--- 15. Se crea la tabla empleados
-CREATE TABLE empleados (
-    id_empleado SERIAL PRIMARY KEY,
-    codigo_empleado VARCHAR(30) NOT NULL UNIQUE,
-    id_persona INT NOT NULL,
-    id_sitio INT NOT NULL,
-    CONSTRAINT fk_emp_persona FOREIGN KEY (id_persona)
-        REFERENCES personas(id_persona)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    CONSTRAINT fk_emp_sitio FOREIGN KEY (id_sitio)
-        REFERENCES sitios(id_sitio)
-        ON DELETE RESTRICT
-        ON UPDATE RESTRICT
+-- 15. se crea la tabla empleados
+create table empleados (
+    id_empleado serial primary key,
+    codigo_empleado varchar(30) not null unique,
+    id_persona int not null,
+    id_sitio int not null,
+    constraint fk_emp_persona foreign key (id_persona)
+        references personas(id_persona)
+        on delete cascade
+        on update cascade,
+    constraint fk_emp_sitio foreign key (id_sitio)
+        references sitios(id_sitio)
+        on delete restrict
+        on update restrict
 );
--- 16. Se crea la tabla puertos
-CREATE TABLE puertos (
-    id_puerto SERIAL PRIMARY KEY,
-    nombre VARCHAR(30) NOT NULL UNIQUE,
-    id_sitio INT NOT NULL,
-    CONSTRAINT fk_puerto_sitio FOREIGN KEY (id_sitio)
-        REFERENCES sitios(id_sitio)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-);
-
--- 17. Se crea la tabla motoristas
-CREATE TABLE motoristas (
-    id_motorista SERIAL PRIMARY KEY,
-    id_persona INT NOT NULL,
-    id_tipo_licencia INT NOT NULL,
-    id_empresa INT NOT NULL,
-    CONSTRAINT fk_mot_persona FOREIGN KEY (id_persona)
-        REFERENCES personas(id_persona)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    CONSTRAINT fk_mot_licencia FOREIGN KEY (id_tipo_licencia)
-        REFERENCES tipos_licencia(id_tipo_licencia)
-        ON DELETE RESTRICT
-        ON UPDATE RESTRICT,
-    CONSTRAINT fk_mot_empresa FOREIGN KEY (id_empresa)
-        REFERENCES empresas(id_empresa)
-        ON DELETE RESTRICT
-        ON UPDATE RESTRICT
+-- 16. se crea la tabla puertos
+create table puertos (
+    id_puerto serial primary key,
+    nombre varchar(30) not null unique,
+    id_sitio int not null,
+    constraint fk_puerto_sitio foreign key (id_sitio)
+        references sitios(id_sitio)
+        on delete cascade
+        on update cascade
 );
 
--- 18. Se crea la tabla operadores_carga
-CREATE TABLE operadores_carga (
-    id_operario SERIAL PRIMARY KEY,
-    dia_libre VARCHAR(30),
-    observaciones TEXT,
-    id_empleado INT NOT NULL,
+-- 17. se crea la tabla motoristas
+create table motoristas (
+    id_motorista serial primary key,
+    id_persona int not null,
+    id_tipo_licencia int not null,
+    id_empresa int not null,
+    constraint fk_mot_persona foreign key (id_persona)
+        references personas(id_persona)
+        on delete cascade
+        on update cascade,
+    constraint fk_mot_licencia foreign key (id_tipo_licencia)
+        references tipos_licencia(id_tipo_licencia)
+        on delete restrict
+        on update restrict,
+    constraint fk_mot_empresa foreign key (id_empresa)
+        references empresas(id_empresa)
+        on delete restrict
+        on update restrict
+);
+
+-- 18. se crea la tabla operadores_carga
+create table operadores_carga (
+    id_operario serial primary key,
+    dia_libre varchar(30),
+    observaciones text,
+    id_empleado int not null,
     
-    CONSTRAINT fk_operario_empleado FOREIGN KEY (id_empleado)
-        REFERENCES empleados(id_empleado)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
+    constraint fk_operario_empleado foreign key (id_empleado)
+        references empleados(id_empleado)
+        on delete cascade
+        on update cascade
 );
 
--- 19. Se crea la tabla encargados
-CREATE TABLE encargados (
-    id_encargado SERIAL PRIMARY KEY,
-    usuario VARCHAR(30) NOT NULL UNIQUE,
-    contrasenia VARCHAR(30) NOT NULL,
-    id_empleado INT NOT NULL,
+-- 19. se crea la tabla encargados
+create table encargados (
+    id_encargado serial primary key,
+    usuario varchar(30) not null unique,
+    contrasenia varchar(30) not null,
+    id_empleado int not null,
     
-    CONSTRAINT fk_encargado_empleado FOREIGN KEY (id_empleado)
-        REFERENCES empleados(id_empleado)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
+    constraint fk_encargado_empleado foreign key (id_empleado)
+        references empleados(id_empleado)
+        on delete cascade
+        on update cascade
 );
 
--- 20. Se crea la tabla camiones
-CREATE TABLE camiones (
-    id_camion SERIAL PRIMARY KEY,
-    numero_registro VARCHAR(30) NOT NULL UNIQUE,
-    placa VARCHAR(30) NOT NULL UNIQUE,
-    numero_serie VARCHAR(30) NOT NULL UNIQUE,
-    anio_camion INT NOT NULL CHECK (anio_camion > 1980),
-    estado BOOLEAN NOT NULL DEFAULT TRUE,
-    id_empresa INT NOT NULL,
-    id_marca_vehiculo INT NOT NULL,
-    id_modelo_vehiculo INT NOT NULL,
-    id_tipo_camion INT NOT NULL,
-    id_capacidad_camion INT NOT NULL,
-    id_tipo_combustible INT NOT NULL,
+-- 20. se crea la tabla camiones
+create table camiones (
+    id_camion serial primary key,
+    numero_registro varchar(30) not null unique,
+    placa varchar(30) not null unique,
+    numero_serie varchar(30) not null unique,
+    anio_camion int not null check (anio_camion > 1980),
+    estado boolean not null default true,
+    id_empresa int not null,
+    id_marca_vehiculo int not null,
+    id_modelo_vehiculo int not null,
+    id_tipo_camion int not null,
+    id_capacidad_camion int not null,
+    id_tipo_combustible int not null,
     
-    CONSTRAINT chk_placa CHECK (placa ~ '^[A-Z]{3}-[0-9]{4}$'),
-    CONSTRAINT fk_cam_empresa FOREIGN KEY (id_empresa)
-        REFERENCES empresas(id_empresa)
-        ON DELETE RESTRICT
-        ON UPDATE RESTRICT,
-    CONSTRAINT fk_cam_marca FOREIGN KEY (id_marca_vehiculo)
-        REFERENCES marcas_vehiculos(id_marca_vehiculo)
-        ON DELETE RESTRICT
-        ON UPDATE RESTRICT,
-    CONSTRAINT fk_cam_modelo FOREIGN KEY (id_modelo_vehiculo)
-        REFERENCES modelos_vehiculos(id_modelo_vehiculo)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    CONSTRAINT fk_cam_tipo FOREIGN KEY (id_tipo_camion)
-        REFERENCES tipos_camiones(id_tipo_camion)
-        ON DELETE RESTRICT
-        ON UPDATE RESTRICT,
-    CONSTRAINT fk_cam_cap FOREIGN KEY (id_capacidad_camion)
-        REFERENCES capacidades_camiones(id_capacidad_camion)
-        ON DELETE RESTRICT
-        ON UPDATE RESTRICT,
-    CONSTRAINT fk_cam_comb FOREIGN KEY (id_tipo_combustible)
-        REFERENCES tipos_combustibles(id_tipo_combustible)
-        ON DELETE RESTRICT
-        ON UPDATE RESTRICT
+    constraint chk_placa check (placa ~ '^[a-z]{3}-[0-9]{4}$'),
+    constraint fk_cam_empresa foreign key (id_empresa)
+        references empresas(id_empresa)
+        on delete restrict
+        on update restrict,
+    constraint fk_cam_marca foreign key (id_marca_vehiculo)
+        references marcas_vehiculos(id_marca_vehiculo)
+        on delete restrict
+        on update restrict,
+    constraint fk_cam_modelo foreign key (id_modelo_vehiculo)
+        references modelos_vehiculos(id_modelo_vehiculo)
+        on delete cascade
+        on update cascade,
+    constraint fk_cam_tipo foreign key (id_tipo_camion)
+        references tipos_camiones(id_tipo_camion)
+        on delete restrict
+        on update restrict,
+    constraint fk_cam_cap foreign key (id_capacidad_camion)
+        references capacidades_camiones(id_capacidad_camion)
+        on delete restrict
+        on update restrict,
+    constraint fk_cam_comb foreign key (id_tipo_combustible)
+        references tipos_combustibles(id_tipo_combustible)
+        on delete restrict
+        on update restrict
 );
 
--- 21. Se crea la tabla rutas
-CREATE TABLE rutas (
-    id_ruta SERIAL PRIMARY KEY,
-    numero_ruta INT NOT NULL UNIQUE,
-    id_zona INT NOT NULL,
-    distancia_max DECIMAL(10,2) CHECK (distancia_max >= 0),
-    id_tipo_distribucion INT NOT NULL,
-    id_sitio INT NOT NULL,
-    CONSTRAINT fk_ruta_zona FOREIGN KEY (id_zona)
-        REFERENCES zonas(id_zona)
-        ON DELETE RESTRICT
-        ON UPDATE RESTRICT,
-    CONSTRAINT fk_ruta_tipo FOREIGN KEY (id_tipo_distribucion)
-        REFERENCES tipos_distribucion(id_tipo_distribucion)
-        ON DELETE RESTRICT
-        ON UPDATE RESTRICT,
-    CONSTRAINT fk_ruta_sitio FOREIGN KEY (id_sitio)
-        REFERENCES sitios(id_sitio)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
+-- 21. se crea la tabla rutas
+create table rutas (
+    id_ruta serial primary key,
+    numero_ruta int not null unique,
+    id_zona int not null,
+    distancia_max decimal(10,2) check (distancia_max >= 0),
+    id_tipo_distribucion int not null,
+    id_sitio int not null,
+    constraint fk_ruta_zona foreign key (id_zona)
+        references zonas(id_zona)
+        on delete restrict
+        on update restrict,
+    constraint fk_ruta_tipo foreign key (id_tipo_distribucion)
+        references tipos_distribucion(id_tipo_distribucion)
+        on delete restrict
+        on update restrict,
+    constraint fk_ruta_sitio foreign key (id_sitio)
+        references sitios(id_sitio)
+        on delete cascade
+        on update cascade
 );
--- 22. Se crea la tabla asignaciones
-CREATE TABLE asignaciones (
-    id_asignacion SERIAL PRIMARY KEY,
-    fecha DATE NOT NULL,
-    id_camion INT NOT NULL,
-    id_motorista INT NOT NULL,
-    id_ruta INT NOT NULL,
-    id_tipo_asignacion INT NOT NULL,
+-- 22. se crea la tabla asignaciones
+create table asignaciones (
+    id_asignacion serial primary key,
+    fecha date not null,
+    id_camion int not null,
+    id_motorista int not null,
+    id_ruta int not null,
+    id_tipo_asignacion int not null,
     
-    CONSTRAINT fk_asig_camion FOREIGN KEY (id_camion)
-        REFERENCES camiones(id_camion)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    CONSTRAINT fk_asig_motorista FOREIGN KEY (id_motorista)
-        REFERENCES motoristas(id_motorista)
-        ON DELETE RESTRICT
-        ON UPDATE RESTRICT,
-    CONSTRAINT fk_asig_ruta FOREIGN KEY (id_ruta)
-        REFERENCES rutas(id_ruta)
-        ON DELETE RESTRICT
-        ON UPDATE RESTRICT,
-    CONSTRAINT fk_asig_tipo FOREIGN KEY (id_tipo_asignacion)
-        REFERENCES tipos_asignacion(id_tipo_asignacion)
-        ON DELETE RESTRICT
-        ON UPDATE RESTRICT
-);
-
--- 23. Se crea la tabla cargas
-CREATE TABLE cargas (
-    id_carga SERIAL PRIMARY KEY,
-    inicio_carga TIMESTAMP NOT NULL,
-    fin_carga TIMESTAMP NOT NULL,
-    libraje DECIMAL(10,2) CHECK (libraje >= 0),
-    observaciones TEXT,
-    id_asignacion INT NOT NULL,
-    id_puerto INT NOT NULL,
-    id_encargado INT NOT NULL,
-    
-    CONSTRAINT chk_tiempo CHECK (fin_carga > inicio_carga),
-    
-    CONSTRAINT fk_carga_asig FOREIGN KEY (id_asignacion)
-        REFERENCES asignaciones(id_asignacion)
-        ON DELETE CASCADE 
-        ON UPDATE CASCADE,
-    CONSTRAINT fk_carga_puerto FOREIGN KEY (id_puerto)
-        REFERENCES puertos(id_puerto)
-        ON DELETE RESTRICT
-        ON UPDATE RESTRICT,
-    CONSTRAINT fk_carga_encargado FOREIGN KEY (id_encargado)
-        REFERENCES encargados(id_encargado)
-        ON DELETE RESTRICT
-        ON UPDATE RESTRICT
+    constraint fk_asig_camion foreign key (id_camion)
+        references camiones(id_camion)
+        on delete cascade
+        on update cascade,
+    constraint fk_asig_motorista foreign key (id_motorista)
+        references motoristas(id_motorista)
+        on delete restrict
+        on update restrict,
+    constraint fk_asig_ruta foreign key (id_ruta)
+        references rutas(id_ruta)
+        on delete restrict
+        on update restrict,
+    constraint fk_asig_tipo foreign key (id_tipo_asignacion)
+        references tipos_asignacion(id_tipo_asignacion)
+        on delete restrict
+        on update restrict
 );
 
--- 24. Se crea la tabla turnos
-CREATE TABLE turnos (
-    id_turno SERIAL PRIMARY KEY,
-    fecha DATE NOT NULL,
-    observaciones TEXT,
-    id_sitio INT NOT NULL,
+-- 23. se crea la tabla cargas
+create table cargas (
+    id_carga serial primary key,
+    inicio_carga timestamp not null,
+    fin_carga timestamp not null,
+    libraje decimal(10,2) check (libraje >= 0),
+    observaciones text,
+    id_asignacion int not null,
+    id_puerto int not null,
+    id_encargado int not null,
+    
+    constraint chk_tiempo check (fin_carga > inicio_carga),
+    
+    constraint fk_carga_asig foreign key (id_asignacion)
+        references asignaciones(id_asignacion)
+        on delete cascade 
+        on update cascade,
+    constraint fk_carga_puerto foreign key (id_puerto)
+        references puertos(id_puerto)
+        on delete restrict
+        on update restrict,
+    constraint fk_carga_encargado foreign key (id_encargado)
+        references encargados(id_encargado)
+        on delete restrict
+        on update restrict
+);
+
+-- 24. se crea la tabla turnos
+create table turnos (
+    id_turno serial primary key,
+    fecha date not null,
+    observaciones text,
+    id_sitio int not null,
    
-    CONSTRAINT fk_turno_sitio FOREIGN KEY (id_sitio)
-        REFERENCES sitios(id_sitio)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
+    constraint fk_turno_sitio foreign key (id_sitio)
+        references sitios(id_sitio)
+        on delete cascade
+        on update cascade
 );
--- 25. Se crea la tabla turnos_operarios
-CREATE TABLE turnos_operarios (
-    id_turno_operario SERIAL PRIMARY KEY,
-    id_turno INT NOT NULL,
-    id_operario INT NOT NULL,
-    CONSTRAINT fk_to_turno FOREIGN KEY (id_turno)
-        REFERENCES turnos(id_turno)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    CONSTRAINT fk_to_operario FOREIGN KEY (id_operario)
-        REFERENCES operadores_carga(id_operario)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
+-- 25. se crea la tabla turnos_operarios
+create table turnos_operarios (
+    id_turno_operario serial primary key,
+    id_turno int not null,
+    id_operario int not null,
+    constraint fk_to_turno foreign key (id_turno)
+        references turnos(id_turno)
+        on delete cascade
+        on update cascade,
+    constraint fk_to_operario foreign key (id_operario)
+        references operadores_carga(id_operario)
+        on delete cascade
+        on update cascade
 );
+
 
