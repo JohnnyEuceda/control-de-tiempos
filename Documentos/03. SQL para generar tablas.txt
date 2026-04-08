@@ -3,6 +3,12 @@
 --  TABLAS CATALOGOS BASE
 -- =========================================
 
+--0. Se crea la tabla dias_semana
+create table dias_semana (
+    id_dia_semana serial primary key,
+    nombre varchar(20) not null unique
+);
+
 -- 1. Se crea la tabla tipos_licencia
 create table tipos_licencia (
     id_tipo_licencia serial primary key,
@@ -74,8 +80,8 @@ create table departamentos (
     id_pais int not null,
     constraint fk_pais foreign key (id_pais)
         references paises(id_pais)
-        on delete cascade 
-        on update cascade
+        on delete restrict 
+        on update restrict,
     constraint uq_departamento_pais unique (nombre, id_pais)
 );
 
@@ -86,8 +92,8 @@ create table ciudades (
     id_departamento int not null,
     constraint fk_departamento foreign key (id_departamento)
         references departamentos(id_departamento)
-        on delete cascade 
-        on update cascade
+        on delete restrict 
+        on update restrict,
     constraint uq_ciudad_depto unique (nombre,id_departamento)
 );
 
@@ -98,8 +104,8 @@ create table modelos_camiones (
     id_marca_camion int not null,
     constraint fk_modelo_marca foreign key (id_marca_camion)
         references marcas_camiones(id_marca_camion)
-        on delete cascade 
-        on update cascade,
+        on delete restrict 
+        on update restrict,
     --No se puede repetir el modelo dentro de la marca
     constraint uq_modelo_por_marca unique(nombre, id_marca_camion)
 );
@@ -142,8 +148,8 @@ create table centros_distribucion (
     id_pais int not null,
     id_departamento int not null,
     id_ciudad int not null,
-    latitud decimal(10,2),
-    longitud decimal(10,2),
+    latitud decimal(9,6),
+    longitud decimal(9,6),
     estado boolean not null default true,
 
     -- Llaves Foráneas Básicas
@@ -201,8 +207,8 @@ create table empleados (
     id_centro_distribucion int not null,
     constraint fk_emp_persona foreign key (id_persona)
         references personas(id_persona)
-        on delete cascade
-        on update cascade,
+        on delete restrict 
+        on update restrict,
     constraint fk_emp_centro foreign key (id_centro_distribucion)
         references centros_distribucion(id_centro_distribucion)
         on delete restrict
@@ -228,8 +234,8 @@ create table motoristas (
     id_empresa int not null,
     constraint fk_mot_persona foreign key (id_persona)
         references personas(id_persona)
-        on delete cascade
-        on update cascade,
+        on delete restrict 
+        on update restrict,
     constraint fk_mot_licencia foreign key (id_tipo_licencia)
         references tipos_licencia(id_tipo_licencia)
         on delete restrict
@@ -243,14 +249,18 @@ create table motoristas (
 -- 20. Se crea la tabla operadores_carga
 create table operadores_carga (
     id_operario serial primary key,
-    dia_libre varchar(30),
+    id_dia_libre int not null,
     observaciones text,
     id_empleado int not null unique,
     
     constraint fk_operario_empleado foreign key (id_empleado)
         references empleados(id_empleado)
-        on delete cascade
-        on update cascade
+        on delete restrict 
+        on update restrict,
+    constraint fk_dia_libre_operario foreign key (id_dia_libre)
+        references dias_semana (id_dia_semana)
+        on delete restrict 
+        on update restrict
 );
 
 -- 21. Se crea la tabla encargados
@@ -262,8 +272,8 @@ create table encargados (
     
     constraint fk_encargado_empleado foreign key (id_empleado)
         references empleados(id_empleado)
-        on delete cascade
-        on update cascade
+        on delete restrict 
+        on update restrict
 );
 
 -- 22. Se crea la tabla camiones
@@ -292,8 +302,8 @@ create table camiones (
         on update restrict,
     constraint fk_cam_modelo foreign key (id_modelo_camion)
         references modelos_camiones(id_modelo_camion)
-        on delete cascade
-        on update cascade,
+        on delete restrict 
+        on update restrict,
     constraint fk_cam_tipo foreign key (id_tipo_camion)
         references tipos_camiones(id_tipo_camion)
         on delete restrict
@@ -348,8 +358,8 @@ create table rutas (
         on update restrict,
     constraint fk_ruta_centro foreign key (id_centro_distribucion)
         references centros_distribucion(id_centro_distribucion)
-        on delete cascade
-        on update cascade
+        on delete restrict 
+        on update restrict
 );
 -- 24. Se crea la tabla asignaciones
 create table asignaciones (
@@ -363,8 +373,8 @@ create table asignaciones (
     
     constraint fk_asig_camion foreign key (id_camion)
         references camiones(id_camion)
-        on delete cascade
-        on update cascade,
+        on delete restrict 
+        on update restrict,
     constraint fk_asig_motorista foreign key (id_motorista)
         references motoristas(id_motorista)
         on delete restrict
@@ -491,8 +501,9 @@ create table turnos (
    
     constraint fk_turno_centro foreign key (id_centro_distribucion)
         references centros_distribucion(id_centro_distribucion)
-        on delete cascade
-        on update cascade
+        on delete restrict 
+        on update restrict,
+    constraint uq_fecha_por_centro unique(fecha,id_centro_distribucion)
 );
 -- 27. se crea la tabla turnos_operarios
 create table turnos_operarios (
@@ -506,7 +517,7 @@ create table turnos_operarios (
     constraint fk_to_operario foreign key (id_operario)
         references operadores_carga(id_operario)
         on delete cascade
-        on update cascade
+        on update cascade,
     constraint uq_operario_por_turno unique(id_operario,id_turno)
 );
 
